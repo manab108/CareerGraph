@@ -1,6 +1,8 @@
+const BASE_URL = import.meta.env.VITE_API_URL || '';
+
 const api = {
   async get(url) {
-    const res = await fetch(url);
+    const res = await fetch(`${BASE_URL}${url}`);
     if (!res.ok) {
       let errBody;
       try {

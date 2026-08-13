@@ -24,6 +24,8 @@ import {
   X
 } from 'lucide-react';
 
+const BASE_URL = import.meta.env.VITE_API_URL || '';
+
 function App() {
   // State
   const [dbConnected, setDbConnected] = useState(false);
@@ -94,7 +96,7 @@ function App() {
       const gaps = await fetchRoleGaps("role-backend-junior", userId);
       const owned = [...gaps.matched];
       
-      const res = await fetch(`/api/users/${userId}/skills`);
+      const res = await fetch(`${BASE_URL}/api/users/${userId}/skills`);
       if (res.ok) {
         const ownedSkills = await res.json();
         setUserSkills(ownedSkills);
@@ -127,7 +129,7 @@ function App() {
       setShowAddDropdown(false);
       setSearchQuery("");
       // Add relationship via API
-      await fetch(`/api/users/${selectedUserId}/skills/${skill.id}`, { method: 'POST' });
+      await fetch(`${BASE_URL}/api/users/${selectedUserId}/skills/${skill.id}`, { method: 'POST' });
       // Reload recommendations and user skills
       await loadUserData(selectedUserId);
     } catch (err) {
@@ -139,7 +141,7 @@ function App() {
   const handleRemoveSkill = async (skillId) => {
     try {
       // Remove relationship via API
-      await fetch(`/api/users/${selectedUserId}/skills/${skillId}`, { method: 'DELETE' });
+      await fetch(`${BASE_URL}/api/users/${selectedUserId}/skills/${skillId}`, { method: 'DELETE' });
       // Reload recommendations and user skills
       await loadUserData(selectedUserId);
     } catch (err) {
